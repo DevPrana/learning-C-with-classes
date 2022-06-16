@@ -7,11 +7,23 @@
         - [What is a Namespace?](#what-is-a-namespace)
     - [How does the most basic combination of `<iostream>` header file and `std` namespace work?](#how-does-the-most-basic-combination-of-iostream-header-file-and-std-namespace-work)
 - [Templates in C++](#templates-in-c)
-    - [## Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
+    - [Declaring one or more Template Parameters using PlaceHolder Types](#declaring-one-or-more-template-parameters-using-placeholder-types)
     - [Templates with Default Parameters](#templates-with-default-parameters)
     - [Function Templates](#function-templates)
     - [Class Templates](#class-templates)
     - [Difference between `typename` and `class` keyword](#difference-between-typename-and-class-keyword)
+- [Standard Template Library in C++](#standard-template-library-in-c)
+    - [Advantages of STL](#advantages-of-stl)
+    - [Containers](#containers)
+        - [Sequence Containers](#sequence-containers)
+            - [`std::vector`](#stdvector)
+                - [Some member functions of `std::vector`](#some-member-functions-of-stdvector)
+            - [`std::list`](#stdlist)
+        - [Associative Containers](#associative-containers)
+            - [`std::set` and `std::multiset`](#stdset-and-stdmultiset)
+            - [`std::map` and `std::multimap`](#stdmap-and-stdmultimap)
+        - [Derived Containers](#derived-containers)
+    - [Iterators](#iterators)
 - [Overloading the Stream Insertion `<<` and Stream Extraction `>>` operator](#overloading-the-stream-insertion--and-stream-extraction--operator)
 - [Important Concepts](#important-concepts)
     - [Name lookup vs. Overload Resolution](#name-lookup-vs-overload-resolution)
@@ -22,9 +34,10 @@
     - [Return by Reference in C++](#return-by-reference-in-c)
     - [Data types in Switch Case statement](#data-types-in-switch-case-statement)
     - [Amount of Memory occupied by a Derived Class Object](#amount-of-memory-occupied-by-a-derived-class-object)
-    - [How does a C++ program end](#how-does-a-c-program-end)
+    - [Empty Function/Constructor Definition](#empty-functionconstructor-definition)
     - [How does a C++ program end ( return value of `int main()` )](#how-does-a-c-program-end--return-value-of-int-main)
         - [Can we use `void main()` in C? Should we use it?](#can-we-use-void-main-in-c-should-we-use-it)
+    
 - [Tips for C++](#tips-for-c)
     - [Alternative to `for-else` and `while-else` in C++](#alternative-to-for-else-and-while-else-in-c)
 <!-- /TOC -->
@@ -232,6 +245,114 @@ Here `someType` and `someClass` are template types.
 There is no difference between the `typename` and `class` keywords in this context. The use of the `class` keyword is often seen since it was introduced into the language earlier. 
 
 However, the newer `typename` keyword is preferred, because it makes it clearer that the template type can be replaced by any type (such as a `fundamental` type), not just `class` types.
+
+# Standard Template Library in C++
+
+The C++ STL (Standard Template Library) is a powerful set of C++ template classes to provide general-purpose classes and functions with templates that implement many popular and commonly used algorithms and data structures like vectors, lists, queues, and stacks.
+
+STL is used because it is a good idea not to re-invent the wheel.
+
+At the core of the C++ Standard Template Library are following three well-structured components −
+
+- **Containers** are used to manage collections of objects of a certain kind. There are several different types of containers like deque, list, vector, map etc.
+
+- **Algorithms** act on containers. They provide the means by which you will perform initialization, sorting, searching, and transforming of the contents of containers.
+
+- **Iterators** are used to step through the elements of collections of objects. These collections may be containers or subsets of containers.
+
+Iterator is an object that points to an element in a Container. It is handled just like pointers. 
+
+The movement of this object is controlled by the Algorithm.  
+
+## Advantages of STL
+
+- We can re-use well tested components.
+- We can save time no matter what level of proficiency you have in C++.
+
+## Containers
+
+A Container class is a class designed to hold and organize multiple instances of another type (either another class, or a fundamental type). 
+
+There are many different kinds of container classes, each of which has various advantages, disadvantages, and restrictions in their use.
+
+### Sequence Containers
+
+Sequence containers are container classes that maintain the ordering of elements in the container. A defining characteristic of sequence containers is that you can choose where to insert your element by position. 
+
+As of C++11, the STL contains 6 sequence containers: `std::vector`, `std::deque`, `std::array`, `std::list`, `std::forward_list`, and `std::basic_string`
+
+### `std::vector`
+
+`std::vector` provides dynamic array functionality that handles its own memory management.
+
+ This means we can create arrays that have their length set at run-time, without having to explicitly allocate and deallocate memory using `new` and `delete` operators. 
+ 
+ `std::vector` is defined in the `<vector>` header file and is included under the `std` namespace.
+
+- Random access is fast in `std::vector`.
+- Insertion and deletion at the end is fast but slow in the middle.
+
+This is in comparison with the built-in implementation of arrays in C.
+
+### Some member functions of `std::vector`
+
+- `std::vector::size()` 
+    
+    It returns the number of elements in the vector.
+
+    This is the number of actual objects held in the vector, which is not necessarily equal to its storage capacity.
+    <br><br>
+
+- `std::vector::capacity()` 
+
+    It returns the size of the storage space **currently allocated** for the vector, expressed in terms of elements.
+
+    This capacity is not necessarily equal to the vector size. It can be equal or greater, with the extra space allowing to accommodate for growth without the need to reallocate on each insertion.
+
+    Notice that this capacity does not suppose a limit on the size of the vector. When this capacity is exhausted and more is needed, it is automatically expanded by the container (reallocating it storage space). The theoretical limit on the size of a vector is given by member max_size.
+    <br><br>
+
+- `std::vector::max_size()` 
+
+    It returns the maximum number of elements that the vector can hold.
+
+    This is the **maximum potential size** the container can reach due to known system or library implementation limitations, but the container is by no means guaranteed to be able to reach that size: it can still fail to allocate storage at any point before that size is reached.
+
+
+#### Take a look at [vectors.cpp](./StandardTemplateLibrary/vectors.cpp) for example code.
+
+### `std::list`
+
+TODO
+
+- Random access is slow in `std::list`.
+- Insertion and deletion is fast both at the end and in the middle.
+
+### Associative Containers
+
+Associative containers are containers that automatically sort their inputs when those inputs are inserted into the container. By default, associative containers compare elements using operator `<`.
+
+All operations (searching, insertion and deleting) are fast except for Random Access.
+
+### `std::set` and `std::multiset`
+
+- `std::set` is a container that stores unique elements, with duplicate elements disallowed. The elements are sorted according to their values.
+- `std::multiset` is a set where duplicate elements are allowed.
+
+`std::set` and `std::multiset` are both defined in the `<set>` header file and are included under the `std` namespace.
+
+### `std::map` and `std::multimap`
+
+- `std::map` (also called an associative array) is a set where each element is a pair, called a key/value pair. The key is used for sorting and indexing the data, and must be unique. The value is the actual data.
+- `std::multimap` (also called a dictionary) is a map that allows duplicate keys. Real-life dictionaries are multimaps: the key is the word, and the value is the meaning of the word. All the keys are sorted in ascending order, and you can look up the value by key. Some words can have multiple meanings, which is why the dictionary is a multimap rather than a map.
+
+`std::map` and `std::multimap` are both defined in the `<map>` header file and are included under the `std` namespace.
+
+### Derived Containers
+
+These containers model real-world objects so the speed of their operations depends on the implementation of the container.
+
+## Iterators
 
 # Overloading the Stream Insertion (`<<`) and Stream Extraction (`>>`) operator
 
@@ -524,6 +645,42 @@ based on the ACCESS MODIFIER they are enclosed in ( In the Base Class ).
 It is easier and more reliable to accept the MEMORY OVERHEAD of the extra data members inherited from the **Base Class** which can't be accessed ( they might be under the `private:` access modifier ) but are still grouped with the **Derived Class** and are allocated memory upon creation of instances of the **Derived Class**.
 
 Take a look at [12oop-e-sizeof-derived-class.cpp](./ObjectOrientedProgramming/12oop-e-sizeof-derived-class.cpp) for validation of this concept.
+
+## Empty Function/Constructor Definition
+
+Consider the following code snippet...
+```cpp
+1  #include <iostream>
+2
+3  class Example {
+4     public:
+5         void display1();
+6         void display2(){};
+7 
+8         int process1();
+9         int process2(){};
+10
+11        Example();
+12        Example(){};
+13 };
+```
+- Line 5 is a VALID **function prototype declaration**.
+- Line 6 is a VALID **empty function definition**. This means that it is not possible use the scope resolution operator and define the function (again) outside the class because we will receive a **function re-definition error**. 
+- Line 8 is a VALID **function prototype declaration**.
+- Line 9 is an INVALID **empty function definition** because the function has a non-void return type, yet there is no return statement within the function definition, so we get a warning similar to this: 
+
+    ```bash
+    warning: no return statement in function returning non-void [-Wreturn-type]
+    ```
+- Line 10 is a VALID **default constructor prototype**. But, the user might get errors when trying to create objects using the default constructor if the program doesn't contain a definition later on for this **default constructor**. The sytax for the constructor definition is similar to this:
+    ```cpp 
+    Base::Base() {
+        //...
+        //constructor definition
+        //...
+    };
+    ```
+- Line 11 is a VALID **empty default constructor definition** because constructors don't return any values. But, just like line 6, we can't write a definition for this constructor using the scope resolution operator (`::`) outside the class as it would be considered a **function re-definition** which is not allowed. 
 
 ## How does a C++ program end ( return value of `int main()` )
 
