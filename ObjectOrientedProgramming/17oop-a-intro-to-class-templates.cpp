@@ -54,8 +54,11 @@ void Array<F,G>::display() {
 
 int main() {
     
-    Array<int, int> integerArray; 
+    Array<int, int> integerArray;
+    integerArray.display();
+    
     Array<float, float> floatArray;
+    floatArray.display();
     /*
     Here, we are creating two objects by effectively using two different classes 
     coming from the same template,

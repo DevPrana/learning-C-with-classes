@@ -28,10 +28,10 @@ class Complex {
         */
         
         Complex operator + (Complex const &complex_no) {
-            Complex sum;
-            sum.real = real + complex_no.real;
-            sum.imag = imag + complex_no.imag; 
-            return sum;
+            Complex su;
+            su.real = real + complex_no.real;
+            su.imag = imag + complex_no.imag; 
+            return su;
         };
 
         void printComplex() {
@@ -45,10 +45,10 @@ Friend Function of the class the operator is overloaded for.
 */
 Complex operator * (Complex &first, Complex &second) { 
     //these parameters can be made not 'const' and pass by value. It won't make much difference
-    Complex product;
-    product.real = (first.real * second.real) + (first.imag * second.imag);
-    product.imag = (first.imag * second.real) + (first.real * second.imag);
-    return product;
+    Complex prod;
+    prod.real = (first.real * second.real) + (first.imag * second.imag);
+    prod.imag = (first.imag * second.real) + (first.real * second.imag);
+    return prod;
 };
 
 int main() {
